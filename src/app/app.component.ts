@@ -6,6 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  appStatus = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('stable');
+    }, 2000);
+  });
+
   servers = [
     {
       instanceType: 'medium',
@@ -33,6 +39,8 @@ export class AppComponent {
     },
   ];
 
+  filteredStatus = '';
+
   getStatusClasses(server: {
     instanceType: string;
     name: string;
@@ -44,5 +52,13 @@ export class AppComponent {
       'list-group-item-warning': server.status === 'offline',
       'list-group-item-danger': server.status === 'critical',
     };
+  }
+  onAddServer() {
+    this.servers.push({
+      instanceType: 'small',
+      name: 'New Server',
+      status: 'stable',
+      started: new Date(15, 1, 2017),
+    });
   }
 }
